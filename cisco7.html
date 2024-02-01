@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <META NAME=viewport CONTENT="width=device-width, initial-scale=1">
+  <style type="text/css">
+@media (prefers-color-scheme: light) {
+      .input,.select { font-family:monospace; font-size:small; white-space:nowrap; padding:0px; border:1px solid #404040; background-color:#E0E0E0; color:#404040; }
+      .button { font-family:monospace; font-size:small; white-space:nowrap; background-color:#404040; color:#FFFFFF; }
+      h1,h2 { font-family:monospace; white-space:nowrap; background-color:#FFFFFF; color:#404040; }
+      td { font-family:monospace; font-size:small; white-space:nowrap; background-color:#FFFFFF; color:#404040; }
+      .body,body { text-decoration:none; font-family:monospace; font-size:small; background-color:#FFFFFF; color:#404040; }
+      table { border:0px solid #FFFFFF; }
+}
+@media (prefers-color-scheme: dark) {
+      .input,.select { font-family:monospace; font-size:small; white-space:nowrap; padding:0px; border:1px solid #BFBFBF; background-color:#121212; color:#BFBFBF; }
+      .button { font-family:monospace; font-size:small; white-space:nowrap; background-color:#BFBFBF; color:#121212; }
+      h1,h2 { font-family:monospace; white-space:nowrap; background-color:#121212; color:#BFBFBF; }
+      td { font-family:monospace; font-size:small; white-space:nowrap; background-color:#121212; color:#BFBFBF; }
+      .body,body { text-decoration:none; font-family:monospace; font-size:small; background-color:#121212; color:#BFBFBF; }
+      table { border:0px solid #000000; }
+}
+  </style>
+  <script language="JavaScript" type="text/javascript">
+<!-- 
+  var x = "dsfd;kfoA,.iyewrkldJKDHSUBsgvca69834ncxv9873254k;fg87";
+
+  function encrypt(){
+  with (document.f){
+    var o = s.value.length == 2 ? s.value : Math.ceil(53 * Math.random());
+    e.value = String.fromCharCode(48 + o/10) + String.fromCharCode(48 + o % 10);
+    for (var i = 0; i < d.value.length; i++, o++) {
+      var h = ((d.value.charCodeAt(i) ^ x.charCodeAt(o % 53)).toString(16)).toUpperCase();
+      e.value += (h.length == 1 ? "0" : "") + h;
+    }
+    e.size = Math.max(e.value.length + 2, 64);
+    d.size = e.size / 2;
+  }
+  }
+
+  var rxe = new RegExp('^([0-9]([0-9][0-9A-F]*)?)?$');
+  function decrypt(){
+  with (document.f){
+    d.value = "";
+    e.value = e.value.toUpperCase();
+    while (e.value.length > 0 && !e.value.match(rxe))
+      e.value = e.value.substring(0, e.value.length - 1);
+    if (e.value.length & 1 || e.value.length < 4) return;
+    o = e.value.substring(0, 2);
+    for (var i = 2; i < e.value.length; i+= 2, o++)
+      d.value += String.fromCharCode(parseInt(e.value.charAt(i) + e.value.charAt(i + 1), 16) ^ x.charCodeAt(o % 53));
+    e.size = Math.max(e.value.length + 2, 64);
+    d.size = e.size / 2;
+  }
+  }
+
+  var rxs = new RegExp('^([0-5]|[0-4][0-9]|5[0-2])$');
+  function setsalt(){
+  with (document.f){
+    while (s.value.length > 0 && !s.value.match(rxs))
+      s.value = s.value.substring(0, s.value.length - 1);
+    if (s.value.length == 2) encrypt();
+  }
+  }
+
+  function clearFields() {
+  with (document.f){
+    e.value = d.value = s.value = "";
+    e.size = 64;
+    d.size = e.size / 2;
+  }
+  }
+  //-->
+  </script>
+
+  <title>Type-7 Password Encoder/Decoder</title>
+</head>
+
+<body>
+  <h1>Cisco Type-7 Password Encoder/Decoder</h1>
+  <noscript><h2>Your browser has JavaScript disabled, rendering this page useless.</h2></noscript>
+  <hr>
+  <form name="f" method="post" id="f">
+    <table>
+      <tr>
+        <td align="right"><a class="body" title="Select for copying" href="javascript:document.f.e.focus();document.f.e.select();">Encoded:</a></td>
+        <td>
+          <table>
+            <tr>
+              <td><input size="64" id="e" class="input" maxlength="2002" onkeyup="decrypt()" type="text"></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="right"><a class="body" title="Select for copying" href="javascript:document.f.d.focus();document.f.d.select();">Decoded:</a></td>
+        <td>
+          <table width="100%">
+            <tr>
+              <td><input size="32" id="d" class="input" maxlength="1000" onkeyup="encrypt()" type="text"></td>
+              <td align="left">
+                <table>
+                  <tr>
+                    <td align="center">Salt:</td>
+                    <td><input size="2" id="s" class="input" maxlength="2" onkeyup="setsalt()" type="text" title="A two-digit number."></td>
+                  </tr>
+                </table>
+              </td>
+              <td align="right"><input class="button" onmouseover="this.style.backgroundColor='#808080'" onmouseout="this.style.backgroundColor='#404040'" value="Clear" name="reset" type="button" onclick="clearFields()"></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <hr>
+</body>
+</html>
